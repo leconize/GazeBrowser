@@ -1,24 +1,91 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13122.16" systemVersion="17A277" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13104.12"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
+        <!--Browser View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="BrowserViewController" customModule="GazeBrowser" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <wkWebView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rDX-Xw-nAR">
+                                <rect key="frame" x="0.0" y="69" width="375" height="560"/>
+                                <color key="backgroundColor" red="0.36078431370000003" green="0.38823529410000002" blue="0.4039215686" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <wkWebViewConfiguration key="configuration">
+                                    <audiovisualMediaTypes key="mediaTypesRequiringUserActionForPlayback" none="YES"/>
+                                    <wkPreferences key="preferences"/>
+                                </wkWebViewConfiguration>
+                            </wkWebView>
+                            <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="249" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="URL" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="J4u-bP-S3R">
+                                <rect key="frame" x="16" y="31" width="282" height="30"/>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                                <connections>
+                                    <outlet property="delegate" destination="BYZ-38-t0r" id="J6S-9C-nkg"/>
+                                </connections>
+                            </textField>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pxO-17-HMh">
+                                <rect key="frame" x="321" y="31" width="30" height="30"/>
+                                <state key="normal" title="Go"/>
+                                <connections>
+                                    <action selector="submitUrl" destination="BYZ-38-t0r" eventType="touchUpInside" id="Yz1-OQ-Oos"/>
+                                </connections>
+                            </button>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="BqZ-lF-JVS">
+                                <rect key="frame" x="0.0" y="623" width="375" height="44"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                                <items>
+                                    <barButtonItem title="Logout" id="sV3-9l-NwD"/>
+                                    <barButtonItem systemItem="flexibleSpace" id="mhq-Sc-osW"/>
+                                    <barButtonItem title="Forward" width="42" id="JtO-Dj-rdz">
+                                        <connections>
+                                            <action selector="forwardButtonTap:" destination="BYZ-38-t0r" id="ooA-c4-cDo"/>
+                                        </connections>
+                                    </barButtonItem>
+                                    <barButtonItem title="Back" id="lbC-qa-opK">
+                                        <connections>
+                                            <action selector="backButtonTap:" destination="BYZ-38-t0r" id="yLR-UY-A3l"/>
+                                        </connections>
+                                    </barButtonItem>
+                                </items>
+                            </toolbar>
+                        </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="pxO-17-HMh" secondAttribute="trailing" constant="24" id="2Mh-bF-QER"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="rDX-Xw-nAR" secondAttribute="bottom" constant="38" id="5vv-LM-uqQ"/>
+                            <constraint firstItem="rDX-Xw-nAR" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="49" id="BkX-Ca-MYL"/>
+                            <constraint firstItem="pxO-17-HMh" firstAttribute="leading" secondItem="J4u-bP-S3R" secondAttribute="trailing" constant="23" id="FHh-VW-a6f"/>
+                            <constraint firstItem="J4u-bP-S3R" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="NOX-64-Zlm"/>
+                            <constraint firstItem="rDX-Xw-nAR" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="PFf-1z-18J"/>
+                            <constraint firstItem="rDX-Xw-nAR" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" id="Rxh-aN-qaa"/>
+                            <constraint firstItem="pxO-17-HMh" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="11" id="tYJ-sG-9Ub"/>
+                            <constraint firstItem="J4u-bP-S3R" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="11" id="vnY-86-q5l"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="rDX-Xw-nAR" secondAttribute="trailing" id="xD3-oc-Chx"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
+                    <connections>
+                        <outlet property="backButton" destination="lbC-qa-opK" id="Qwe-3x-RcE"/>
+                        <outlet property="forwardButton" destination="JtO-Dj-rdz" id="FGf-IU-SrS"/>
+                        <outlet property="urlTextInput" destination="J4u-bP-S3R" id="Y9P-ig-fAj"/>
+                        <outlet property="webview" destination="rDX-Xw-nAR" id="PfA-3g-RQn"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="136.80000000000001" y="128.18590704647679"/>
         </scene>
     </scenes>
 </document>

@@ -13,12 +13,12 @@ import AVFoundation
 
 
 protocol CameraControllerDelegate{
-    func didCaptureVideoFrame(image: CIImage)
+    func didCaptureVideoFrame(image: UIImage)
 }
 
 class CameraController: NSObject{
     
-    let group = DispatchGroup()
+    let ciContext: CIContext = CIContext(options: nil)
     
     // MARK:- Error
     enum CameraControllerError: Error {
@@ -44,6 +44,7 @@ class CameraController: NSObject{
         
         func createCaptureSession(){
             self.captureSession = AVCaptureSession()
+            self.captureSession?.sessionPreset = .vga640x480
         }
         
         func configureCaptureDevice() throws {
@@ -65,6 +66,7 @@ class CameraController: NSObject{
         
         func addCaptureDevice() throws {
             guard let captureSession = self.captureSession else { throw CameraControllerError.captureSessionIsMissing }
+
             
             if let frontCamera = self.frontCamera{
                 self.frontCameraInput = try AVCaptureDeviceInput(device: frontCamera)
@@ -138,13 +140,13 @@ class CameraController: NSObject{
 extension CameraController: AVCaptureVideoDataOutputSampleBufferDelegate{
     
     func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
-        self.group.enter()
         DispatchQueue.global(qos: .default).async {
             let imageBuffer = CMSampleBufferGetImageBuffer(sampleBuffer);
             var image = CIImage.init(cvImageBuffer: imageBuffer!)
             image = image.oriented(CGImagePropertyOrientation(rawValue: 5)!)
-            self.delegate?.didCaptureVideoFrame(image: image)
-            self.group.leave()
+            guard let cgImage  = self.ciContext.createCGImage(image, from: image.extent) else { return }
+            
+            self.delegate?.didCaptureVideoFrame(image: UIImage(cgImage: cgImage))
         }
     }
     
